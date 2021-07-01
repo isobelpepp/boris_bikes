@@ -14,15 +14,15 @@ class DockingStation
     @bikes = []
   end
 
-  def release_bike
+  def release_bike(bike=[])
     raise 'No bikes available' if empty?
-
-    @bikes.pop
+    raise 'Bike broken' if bike.broken?
+    @bikes - [bike]
   end
+
 
   def dock(bike)
     raise 'Station full' if full?
-
     @bikes.push(bike)
   end
 

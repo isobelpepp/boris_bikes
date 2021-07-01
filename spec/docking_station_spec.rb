@@ -12,22 +12,40 @@ describe DockingStation do
     it 'responds with a bike that had been docked' do
       bike = Bike.new
       subject.dock(bike)
-      expect(subject.bikes).to eq([bike])
+      expect(subject.bikes).to eq [bike]
+    end
+
+    it 'takes in broken bikes' do
+      bike = Bike.new
+      station = DockingStation.new
+      bike.report_bike
+      station.dock(bike)
+
+      expect(station.bikes).to eq [bike]
     end
   end
  
   describe '#release_bike' do
     it 'raises an error when station is empty' do
-      expect { subject.release_bike}.to raise_error 'No bikes available'
+      expect { subject.release_bike }.to raise_error 'No bikes available'
     end
  
     it 'releases bike if there are bikes' do
     bike = Bike.new
-
+    bike_2 = Bike.new
     subject.dock(bike)
-
-    expect(subject.release_bike).to eq bike
+    subject.dock(bike_2)
+    expect(subject.release_bike(bike)).to eq([bike_2])
     end
+
+    it 'raise error if bike broken' do
+      bike = Bike.new
+      station = DockingStation.new
+      bike.report_bike
+      station.dock(bike)
+      expect { station.release_bike(bike) }.to raise_error 'Bike broken'
+    end
+
   end
 
   describe '#initialize' do

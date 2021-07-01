@@ -4,4 +4,13 @@ class Bike
     true
   end
 
+  def report_bike
+    @broken = true
+  end
+
+  def broken?
+    @broken
+  end
+
 end
+
